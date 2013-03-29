@@ -95,10 +95,14 @@ class Keystone::V2_0::Client < ::Openstack::Client
   def _extract_service_catalog url, body
     self.service_catalog  = Openstack::Client::ServiceCatalog.new(body)
     self.auth_token       = self.service_catalog.token['id']
-    self.management_url   = self.service_catalog.url_for(
+    begin
+      self.management_url   = self.service_catalog.url_for(
                                                     attribute: 'region',
                                                     filter_value: self.region_name,
                                                     endpoint_type: 'adminURL'
                                                   )
+    rescue
+      # logger.info 'identity endpoint Not Found'
+    end
   end
 end
