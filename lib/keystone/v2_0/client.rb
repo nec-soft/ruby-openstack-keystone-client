@@ -1,5 +1,6 @@
 require 'openstack-client'
 require 'openstack-client/service_catalog'
+require 'keystone/v2_0/tenants'
 require 'keystone/v2_0/tokens'
 require 'keystone/v2_0/ec2'
 
@@ -54,7 +55,7 @@ class Keystone::V2_0::Client < ::Openstack::Client
 
     # self.roles = roles.RoleManager(self)
     # self.services = services.ServiceManager(self)
-    # self.tenants = tenants.TenantManager(self)
+    self.tenants = Keystone::V2_0::TenantManager.new(self)
     self.tokens = Keystone::V2_0::TokenManager.new(self)
     # self.users = users.UserManager(self)
 
